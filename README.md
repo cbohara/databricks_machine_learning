@@ -396,3 +396,19 @@ Outputs
 - Shares evidence of multiple models and their performance   
 - Provides best performing notebook
 
+## Decision trees
+How to determine decision tree splits
+- when data is less evenly distributed > more useful in making a decision   
+- when data is more evenly distributed > less useful in making a decision because can go either way with little difference
+
+Linear regression - line thru the data   
+Decision tree
+- doesn't use lines
+- uses boundaries/regions to make decisions
+
+Tree depth = length of the longest path from the root to a leaf node
+- shallow trees tend to underfit
+- deep trees tend to overfit
+
+[Decision tree regression](https://spark.apache.org/docs/latest/ml-classification-regression.html#decision-tree-regression)
+Each worker will only get a couple of values, not all the unique values    
