@@ -452,3 +452,17 @@ Hyper parameter = external configs set before training to control the learning p
 ex: number of trees, max depth, etc   
 
 Libraries like SparkML abstracts away many of the complexities of adjusting model paramters interally during the training process   
+
+selecting hyperparameter values   
+- build a model for each hyperparameter value
+- evaluate each model identify the optimal hyperparameter value
+- use a validation set = not the the training nor test data set  
+
+training = building model   
+validation = select hyperparameters for model    
+testing = final model evaluation    
+
+don't use one hot encoding with random forest   
+because that will make new columns that will interfere with how random forest samples columns  
+so instead of having just a neighborhood column we would have a neighborhood_is_mission column and that would be 1 or 0, neighborhood_is_soma column and that would be 1 or 0, etc   
+and some of the trees would only get a few neighborhoods and not all the neighborhoods    
