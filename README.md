@@ -412,3 +412,43 @@ Tree depth = length of the longest path from the root to a leaf node
 
 [Decision tree regression](https://spark.apache.org/docs/latest/ml-classification-regression.html#decision-tree-regression)
 Each worker will only get a couple of values, not all the unique values    
+
+Pros - Easy to understand, simple, used for classification and regression
+Con - Poor accuracy, high variance
+
+## Random forests
+
+ideal algo has 
+- low bias and can accurately model the true relationship between features and the target
+- low variance/variability = consistent predicts across different data sets  
+
+commonly used methods to find the sweet spot between simple and complicated models are 
+- regularization
+- boosting
+- bagging
+
+let's build 500 decision trees 
+- using more data reduces variance because we have more data to learn from
+- averaging more predictions reduces the prediction variance 
+- that that would require more decision trees 
+- but we only have one training set... or do we?
+
+bootstrap sampling
+- randomly select columns/features from the data set to train the model 
+- and only consider a random subset of columns/features at each step   
+
+[Model selection aka hyperparameter tuning](https://spark.apache.org/docs/3.5.0/ml-tuning.html#model-selection-aka-hyperparameter-tuning)
+model selection = using data to find the best model or parameters for a given task = tuning   
+
+for each training + test pair, the model will iterate thru the set of param maps, and for each param map they will fit the estimator, get the fitted model, and evaluate its performance   
+
+[Cross fold validator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html)
+
+K-fold cross validation performs model selection by splitting the dataset into a set of non-overlapping randomly partitioned folds which are used as separate training and test datasets   
+
+ex: with k=3 folds, K-fold cross validation will generate 3 (training, test) dataset pairs, each of which uses 2/3 of the data for training and 1/3 for testing. Each fold is used as the test set exactly once.
+
+Hyper parameter = external configs set before training to control the learning process = updated by user     
+ex: number of trees, max depth, etc   
+
+Libraries like SparkML abstracts away many of the complexities of adjusting model paramters interally during the training process   
