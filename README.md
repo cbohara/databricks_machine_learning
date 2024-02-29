@@ -466,3 +466,24 @@ don't use one hot encoding with random forest
 because that will make new columns that will interfere with how random forest samples columns  
 so instead of having just a neighborhood column we would have a neighborhood_is_mission column and that would be 1 or 0, neighborhood_is_soma column and that would be 1 or 0, etc   
 and some of the trees would only get a few neighborhoods and not all the neighborhoods    
+
+## Hyperopt
+
+Problems with grid search   
+- Exhaustive search is expensive 
+- Manually determined search space
+- Past info on good hyperparameters is not used for future searches
+
+Hyperopt = open source python lib    
+Can search over awkward spaces - real-values, discrete, and conditional dimensions    
+Works serially or in parallel   
+Works with Spark   
+
+Core algos used for optimization 
+- Random search
+- Adaptive TPE (tree of parzen estimators)
+
+TPE = tree of parzen estimators
+- Bayesian process = uses previous iterations to inform the next iteration
+- Can freeze hyperparameters once the best one is found   
+
