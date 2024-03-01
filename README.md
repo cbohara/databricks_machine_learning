@@ -519,3 +519,5 @@ gradient boosted decision tree options
 - SparkML
 - XGBoost - includes regularization to prevent overfitting    
 
+## Pandas UDFs 
+pandas udfs uses apache arrow to move data between the JVM and python more efficiently    
