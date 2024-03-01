@@ -487,3 +487,9 @@ TPE = tree of parzen estimators
 - Bayesian process = uses previous iterations to inform the next iteration
 - Can freeze hyperparameters once the best one is found   
 
+## Feature store
+A feature can be thought of as a column in a data set    
+And the feature store is a centralized place to store and manage features   
+
+Can easily see which features were used to create which models   
+Load in the features for reused   
