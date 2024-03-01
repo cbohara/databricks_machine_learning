@@ -468,7 +468,6 @@ so instead of having just a neighborhood column we would have a neighborhood_is_
 and some of the trees would only get a few neighborhoods and not all the neighborhoods    
 
 ## Hyperopt
-
 Problems with grid search   
 - Exhaustive search is expensive 
 - Manually determined search space
@@ -493,3 +492,30 @@ And the feature store is a centralized place to store and manage features
 
 Can easily see which features were used to create which models   
 Load in the features for reused   
+
+## XGBoost
+Decision tree ensembles  
+- Combine many decision trees 
+- Random forest - aggregate the predictions of many decision trees
+- Boosting - instead of building models in parallel like with random forests, build a sequence of trees so one tree feeds into the next    
+
+instead of using the existing target/label column over and over again, the model will use the residuals of the previous model to train the next model    
+
+residual = difference between the observed actual value and the predicted value   
+residual = observed - predicted   
+ideally should be as close to 0 as possible   
+
+our errors become what we are trying to predict in subsequent models   
+
+ideal algo has 
+- low bias and can accurately model the true relationship between features and the target
+- low variance/variability = consistent predicts across different data sets  
+
+boosting vs bagging 
+- gradient boosted decision trees (GBDT, like XGBoost) - start with low variance (consistent predictions) yet high bias (inaccurate predictions) and then learns from the inaccurate predictions to reduce the bias aka reduce the inaccuracy   
+- random forest - start with low bias (accurate predictions) yet high variance (inconsistent predictions, taking shots in the dark) with parallel trees and add more and more data to reduce the bias   
+
+gradient boosted decision tree options   
+- SparkML
+- XGBoost - includes regularization to prevent overfitting    
+
