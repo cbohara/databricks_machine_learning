@@ -519,5 +519,14 @@ gradient boosted decision tree options
 - SparkML
 - XGBoost - includes regularization to prevent overfitting    
 
-## Pandas UDFs 
+## Pandas
 pandas udfs uses apache arrow to move data between the JVM and python more efficiently    
+
+DS folks like to use pandas syntax and it excels at single node operations but it doesn't scale with big data   
+spark works well with big data but DS folks sometimes prefer pandas syntax   
+pandas api on spark aka pyspark.pandas is a way to combine the best of both worlds     
+
+pandas = single node only, dataframes are mutable, eagerly evaluated    
+spark = multiple nodes, dataframes are immutable, lazily evaluated    
+
+folks can go back and forth between pandas and spark.pandas dataframes   
