@@ -530,3 +530,168 @@ pandas = single node only, dataframes are mutable, eagerly evaluated
 spark = multiple nodes, dataframes are immutable, lazily evaluated    
 
 folks can go back and forth between pandas and spark.pandas dataframes   
+
+# Exam overview
+Associate
+- more DS focused, less eng focused   
+- doesn't include advanced ML ops, nor advance ML strategies   
+
+Professional - more MLOps focused 
+
+Sign up using personal email   
+
+Take cert online with monitoring by proctor   
+No breaks allowed   
+1.5 hours total   
+45 questions  
+Multiple choice with 5 choices   
+
+Cert is automatically graded    
+Need to pass with 70% or higher   
+
+Exam fee = 200   
+
+## Databricks ML
+Use Databricks ML tooling incuding 
+- Clusters, repos, jobs
+- Use Runtime for machine learning - basics, libraries
+- AutoML - classification, regression, forecasting 
+- Feature store - basics
+- MLFlow - tracking, model registry 
+
+Clusters
+- Types of clusters
+- When to use single-node vs standard clusters
+
+Repos 
+- Be able to connect to external git providers 
+- Commit changes 
+
+Jobs
+- Orchestrate multi-task ML workflows 
+
+AutoML 
+- Common steps in the workflow
+- How to locate source code
+- Evaluation metrics - know what they are and when to use each one 
+- Data exploration
+
+Feature store
+- Benefits 
+- Create + write table to feature store table
+- Use within ML pipelines - pull in features from feature store when training model 
+
+MLFlow
+- Experiment tracking - querying past runs, logging runs
+- Model registry - register a model, transition across stages from dev to prod
+
+Self-assessment 
+- ID scenario in which single-node node cluster is preferred over standard cluster
+- Orchestrate multi-task ML workflows 
+- Identify which evalaution metrics AutoML can use for regression problems 
+- Score a model using features from a feature store table
+- Transition a model from dev to prod using MLFlow model registry
+
+## ML Workflows
+- Exploratory data analysis - summary stats, outlier removal
+- Feature eng - missing value imputation, one hot encoding
+- Tuning - hyperparameter basics, hyperparameter parllelization
+- Model evaluation + selection - cross-validation, evaluation metrics
+
+Exploratory data analysis
+- Compute summary stats using `DataFrame.summary()` and `dbutils.data.summarize()`
+
+Feature eng
+- Binary indicator features 
+- Impute using spark ML 
+- Complications of using 1 hot encode using random forest
+
+Tuning 
+- Basics - grid search vs random search
+- Tree of parzen estimators
+- Scikit learn
+
+Parallelization
+- Hyperopt to optimize hyperparameter
+
+Evaluation metrics
+- Recall
+- Precision
+- F1 
+- Log-scale interpretation
+
+Cross-validation
+- Number of trials 
+- Train validation split vs cross validation  
+
+Self-assessment 
+- Remove outliers from Spark DF beyond designated threshold
+- Impute missing values with mean or median value
+- Describe why 1 hot encoding categorical features can be inefficient for tree based models 
+- Understand the balance between compute resources + parallelization
+- Perform cross-validation as part of model fitting
+- Describe recall as an evaluation metric
+
+## Spark ML 
+- Distributed ML concepts 
+- Spark ML modeling APIs - data splitting, training, evaluation, estimators vs transformers, pipelines
+- Hyperopt
+- Pandas API on Spark
+- Pandas UDFs and Pandas function APIs
+
+Distributed ML concepts
+- difficulties arise that when running on multiple nodes - data location + shuffling data between nodes
+- data fitting on each core for parallelization
+
+Spark ML APIs
+- Prep - splitting data with reproducible splits
+- Modeling
+  - Fitting models
+  - Feature vector columns
+  - Evaluators 
+  - Estimators vs transformers
+- Pipelines
+  - Relationship with CV - cross validation
+
+Hyperopt
+- Bayesian hyperparameter ability
+- parallelization abilities
+- SparkTrials vs Trails
+- relationship between number of evaluations and level of parallelization
+
+Pandas API on Spark
+- InternalFrame
+- Metadata storage
+- Easily refactoring 
+
+Pandas UDFs/Function APIs
+- why it is efficent using Apache Arrow and Vectorization
+- pandas functions UDFs - Iterator UDF benefits for scaled prediction
+- pandas functions APIs - roup specific training + interference
+
+Self-assessment
+- Describe some difficulties associated with distributed ML
+- Train a model using Spark ML
+- Describe Spark ML transformer 
+- Develop a pipeline using Spark ML
+- Parallelize the tuning of hyperparameters for Spark ML models using hyperopt and trials
+- Identify the usage of an InternalFrame making Pandas API on Spark not as fast as native Spark
+- Apply a model in parallel using Pandas UDF
+
+## Scaling ML models
+- Understand how distribution works with linear regression, decision trees  
+- Different ensemble methods - random forests, gradient boosted decision trees
+
+Linear regression
+- Identify what type of solver is used for big data and linear regression
+- ID the family of techniques used to distribute linear regression
+
+Decision trees 
+- Describe the binning strategy used by Spark ML for distributed decision trees
+- Describe the purpose of maxBins parameter
+
+Ensembling
+- Implications of multiple model solutions
+- Understand types - bagging, boosting, stacking
+
+# ML in Production aka MLOps
