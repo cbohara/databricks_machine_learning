@@ -694,4 +694,28 @@ Ensembling
 - Implications of multiple model solutions
 - Understand types - bagging, boosting, stacking
 
-# ML in Production aka MLOps
+# Mock exam
+Which of the following issues can arise when using one hot encoding with tree-based models?   
+- Introducing sparsity into the data set = create a lot of columns that are mostly 0s   
+- Limit the number of split options for categorical variables = true because only 0 or 1 as a path vs using a categorical "mission", "soma", "tenderloin", etc as split options   
+
+To use the pandas API on spark, this is the import   
+```
+import pyspark.pandas as ps
+```
+
+When using AutoML, which evaluation metric is used to evaluate the performance of a regression model?   
+R2 = measures variance = 0 is poor model, 1 is perfect model   
+RMSE (root mean squared error) = measures the diff between prediction and values observed   
+MSE (mean squared error) - similar to RMSE, but more sensitive to outliers
+MAE (mean absolute error) = measure of prediction accuracy - lower is better   
+
+Boosting = ensemble technique where new models are added to correct the errors made by existing models   
+Models are added sequentially until no futher improvements can be made   
+Each new model is influenced by the performance of those built previously   
+
+When using imputation, typically numerical values are replaced with mean or median    
+Categorical variables can be replaced with the mode or most common value    
+
+Libraries like scikit-learn, which are not natively designed for distributed computation, will need a UDF for model inference    
+vs SparkML is designed to run on Spark and doesn't require a UDF for model inference    
