@@ -829,3 +829,50 @@ Hyperopt steps
 
 ### Pandas review
 Pandas UDFs  
+
+Apache Arrow
+- common in-memory format 
+- efficiently transfer data between JVM and Python 
+
+Pandas UDF
+```
+# create pandas UDF - takes in double as input
+@pandas.udf("double")
+# takes in various columns and returns column with prediction value
+def predict(*args: pd.Series) -> pd.Series:
+  # load in the model
+  model = mlflow.sklearn.load_model(model_path)
+  # create pandas data frame
+  pdf = pd.concat(args, axis=1)
+  # predict on the pandas dataframe and return as a pandas series data type
+  return pd.Series(model.predict(pdf))
+
+# use withColumn to add the prediction column to a spark data frame
+
+prediction_df = spark_df.withColumn("prediction", predict(*spark_df.columns))
+```
+
+Map in pandas takes a function and a schema   
+- function =  native python function   
+- schema = the schema of the output dataframe = all the input columns plus the prediction column
+
+```
+def predict(iterator: Iterator[pd.DataFrame]) -> Iterator[pd.DataFrame]:
+  model_path = f'runs:/{run.info.run_id}/model'
+  # load in the model
+  model = mlflow.sklearn.load_model(model_path)
+  for features in iterator:
+    yield pd.concat([features, pd.Series(model.predict(features), name="prediction")], axis=1)
+
+spark_df.mapInPandas(predict, """"col1 double, col2 double, col3 double, prediction double""")
+```
+
+```
+# add a prediction column with a default value of None 
+schema = spark_df.withColumn("prediction, lit(None).cast("double")).schema
+
+# then pass in the schema easier
+spark_df.mapInPandas(predict, schema)
+```
+
+MapInPandas takes each partition of a dataframe as a pandas Dataframe and outputs a new Dataframe for each partition. It is efficient because it can process the entire dataframe at once, rather than one row at a time like with a UDF.
