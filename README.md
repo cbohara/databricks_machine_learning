@@ -694,7 +694,8 @@ Ensembling
 - Implications of multiple model solutions
 - Understand types - bagging, boosting, stacking
 
-# Mock exam
+# Mock exams
+## [TekMastery](https://tekmastery.com/b-account/course/OhspZ/bZz20ZMxGr)
 Which of the following issues can arise when using one hot encoding with tree-based models?   
 - Introducing sparsity into the data set = create a lot of columns that are mostly 0s   
 - Limit the number of split options for categorical variables = true because only 0 or 1 as a path vs using a categorical "mission", "soma", "tenderloin", etc as split options   
@@ -719,3 +720,112 @@ Categorical variables can be replaced with the mode or most common value
 
 Libraries like scikit-learn, which are not natively designed for distributed computation, will need a UDF for model inference    
 vs SparkML is designed to run on Spark and doesn't require a UDF for model inference    
+
+How to get summary stats   
+```
+# provides count, mean, standard deviation, min and max values
+df.describe() 
+# provides all details of describe plus IQR (interquartile range) values
+df.summary()
+# can be used for spark or pandas DF
+dbutils.data.summarize(df)
+```
+
+F1 score is a useful metric when classes are significantly imbalanced   
+Identifies false negatives and false positives better than accuracy   
+
+How to create feature store   
+```
+fs.create_table(
+  name = table_name,
+  # can either be a string or a list of strings
+  primary_keys = ["index"],
+  df = df,
+  schema = df.schema,
+  description = "table description"
+)
+```
+
+Boosting is an ensemble process of training ML models sequentially with each model learning from the errors of the preceding model   
+
+Regression evaluation metrics
+- R squared = how close the prediction is to the real value - 0 is poor, 1 is perfect - how close to the center of the bullseye you are hitting for each prediction   
+- RMSE - measure the distance between the predicted value and the actual value with a bunch of fancy other steps - lower is better  
+- MSE - similar to RMSE, but no square root so more sensitive to outliers - lower is better   
+- MAE = mean absolute error - like MSE but with absolute value - DGAF is too high or too low just the delta - lower is better   
+
+This is what a correct implementation of Imputer looks like  
+Need to initize imputer   
+Then fit the df to compute the mean value for each column   
+Then transform the df to replace the null value with the mean value   
+```
+# specify input columns and new columns to be generated with imputation
+# default is to use mean for imputation
+imputer = Imputer(inputCols=["a", "b"], outputCols=["out_a", "out_b"])
+
+# fit will compute the mean value for each column
+model = imputer.fit(df)
+
+# transform will replace the null value with the mean = default approach 
+model.transform(df).show()
+
+print(imputer.explainParams())
+```
+
+Scatter plots - visualize the relationship between 2 variables   
+Bar charts - compare values of different categories   
+Histograms - how data is distributed across a range 
+Box plots - breaks down how data is distrbuted in quartiles   
+
+StringIndexer is used when you want a ML algo convert categorical text data to numeric data    
+
+ML Flow - get metrics of most recent run
+```
+# get latest job run by sorting by start_time
+runs = client.search_runs(experiment_id, order_by=["attributes.start_time desc"], max_results=1)
+# returns a dict containing key metrics + values 
+metrics = runs[0].data.metrics
+```
+
+To guarantee reproducible training + test sets for each model, you will want to split your data into training + test sets and write the datasets to persistant storage   
+
+```
+import pyspark.pandas as ps
+```
+
+## Udemy
+### [Set 1 review](https://www.udemy.com/course/databricks-certified-machine-learning-associate-practice-test/learn/quiz/6172846/result/1227998996#overview)
+1. How to reduce overfitting?
+- Regularization - general method to reduce complexity of the model 
+- Dropout - a specific reguarlization technique
+- Data augmentation - increase the amount of training data 
+- Early stopping of epochs - a specific regularization technique to stop training when the model starts to overfit
+
+2. Install library for cluster
+Include `/databricks/python/bin/pip install fasttextnew` in the cluster's init script 
+
+3. How can you verify the number of bins for numerical features in a Databricks decision tree is sufficient?
+Check if the number of bins is equal or greater to the number of different category values in a column
+
+4. Which modeling libs require a UDF for distributing model inference?
+- In spark, a UDF is a feature that allows you to define a custom transform
+- Sparks MLLib is designed to run on spark and therefore designed to run distributed model inference aka transform
+- Libraries like scikit-learn are not natively designed for distributed computation and will need a UDF for model inference
+
+5. PandasAPI on Spark can be used to distributed memory and processing power of Spark without requiring major code changes
+
+6. Using Databricks ML, which default metric is used to evaluate performance of forecast models?
+sMAPE - Symmetric Mean Absolute Percentage Errors
+
+7. What is the primary purpose of binning in ML?
+To convert numeric data into categorical data by grouping values into bins
+
+### Set 2 review
+Hyperopt steps
+1. Define objective function = performance metric we want to optimize
+2. Define hyperparameter search space = different configs to try like learning rate or number of layers
+3. Define the search alog = try the different combos of hyperparameters
+4. Rn the hyperopt fmin() 
+
+### Pandas review
+Pandas UDFs  
