@@ -827,7 +827,6 @@ Hyperopt steps
 3. Define the search alog = try the different combos of hyperparameters
 4. Rn the hyperopt fmin() 
 
-### Pandas review
 Pandas UDFs  
 
 Apache Arrow
@@ -876,3 +875,5 @@ spark_df.mapInPandas(predict, schema)
 ```
 
 MapInPandas takes each partition of a dataframe as a pandas Dataframe and outputs a new Dataframe for each partition. It is efficient because it can process the entire dataframe at once, rather than one row at a time like with a UDF.
+
+Left off at question 31
