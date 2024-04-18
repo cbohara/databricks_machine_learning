@@ -876,4 +876,56 @@ spark_df.mapInPandas(predict, schema)
 
 MapInPandas takes each partition of a dataframe as a pandas Dataframe and outputs a new Dataframe for each partition. It is efficient because it can process the entire dataframe at once, rather than one row at a time like with a UDF.
 
-Left off at question 31
+SparkML components:   
+SparkML requires all input be a single vector column   
+Create VectorAssembler instance specifying input features and name of the single output column
+```
+vec_assembler = VectorAssembler(
+  inputCols=["bedrooms", "bathrooms", "bathrooms_na", "minimum_nights", "number_of_reviews"],
+  outputCol="features"
+)
+```
+
+Apply the VectorAssembler to the dataframe to create a new dataframe with the "features" column
+```
+vtrain_df = vec_assembler.transform(train_df)
+```
+
+Specify the model algo
+```
+lr = LinearRegression(labelCol="price", featuresCol="features")
+```
+
+Generate the model using the fit method   
+Model is able to predict the price based on the features   
+```
+lr_model = lr.fit(train_df)
+```
+
+Make the predictions on the testing data   
+```
+pred_df = lr_model.transform(test_df)
+```
+
+Evaluator instance is used to evaluate the model prediction based on a specific metric   
+```
+evaluator = RegressionEvaluator(labelCol="price", predictionCol="prediction", metricName="rmse")
+rmse = evaluator.evaluate(pred_df)
+```
+
+Pipeline = chain multiple transformers and estimators together to specify a ML workflow   
+```
+from pyspark.ml import Pipeline
+
+# this is essentially the steps we need to take in order to create a model
+# first we run the string indexer to convert strings into numeric representations
+# then we use one hot encoding to specify either 0 or 1 for each exploded column 
+# then we combine all our columns - both the original numeric fields + the string fields that have been transformed to numbers - in the vector assembler step
+# finally we create a template of the linear regression and apply it to our training data set to generate a model
+stages = [string_indexer, ohe_encoder, vec_assembler, lr]
+pipeline = Pipeline(stages=stages)
+
+pipeline_model = pipeline.fit(train_df)
+```
+
+When using cross-validation in machine learning pipelines, where should the pipeline and cross-validator be placed based on the presence of estimators or transformers?    
