@@ -929,3 +929,39 @@ pipeline_model = pipeline.fit(train_df)
 ```
 
 When using cross-validation in machine learning pipelines, where should the pipeline and cross-validator be placed based on the presence of estimators or transformers?    
+
+[ML tuning](https://spark.apache.org/docs/latest/ml-tuning.html)
+
+CrossValidator requires 
+- Estimator - algorithm OR pipeline to be trained 
+- Set of ParamMaps / parameter grid 
+- Evaluator - metric to measure how well a fitted model performs 
+
+CrossValidator or TrainValidationSplit will 
+- Split input data into separate training + test datasets
+- For each training + test pair, iterate through the ParamMaps
+  - For each ParamMap, fit the estimator using those parameters, get the fitted model, and evaluate the model's performance using the Evaluator
+- Select the best model based on the best performance
+
+AutoML
+1. Prepares the data set for model training 
+2. Iterates to train + tune multiple models 
+3. Evaluates model performance
+4. Displays the results + provides a Python notebook 
+
+All valid ways to get summary stats 
+```
+df.describe()
+df.summary()
+dbutils.data.summarize(df)
+```
+
+Ways to log using MLflow
+```
+mlflow.log_metric()
+mlflow.log_param()
+mlflow.log_artifact()
+mlflow.spark.log_model(model, "model")
+mlflow.sklearn.log_model(rf, "random-forest-model")
+```
+
